@@ -4,6 +4,10 @@ import AdminNav from '@/components/admin/admin-nav'
 import { requireAdmin } from '@/lib/auth-guard'
 import { db } from '@/lib/db'
 
+// The admin panel is private and always reads fresh data per request, so navigations
+// between admin pages are allowed to wait for the server (no instant-navigation check).
+export const instant = false
+
 async function AdminShell({ children }: { children: React.ReactNode }) {
   await requireAdmin()
   const unread = await db.contactMessage.count({ where: { read: false } })

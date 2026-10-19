@@ -1,8 +1,13 @@
+import { connection } from 'next/server'
 import Link from 'next/link'
 import AvailabilityToggle from '@/components/admin/availability-toggle'
 import { db } from '@/lib/db'
 
+// Admin pages read fresh data per request; navigation may wait for the server.
+export const instant = false
+
 export default async function AdminDashboard() {
+  await connection() // request-time only: DB drivers use random values Next.js forbids during prerender
   const [projects, published, certs, unread, latest, settings] = await Promise.all([
     db.project.count(),
     db.project.count({ where: { published: true } }),

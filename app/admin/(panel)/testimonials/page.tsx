@@ -1,7 +1,12 @@
+import { connection } from 'next/server'
 import TestimonialsEditor from '@/components/admin/testimonials-editor'
 import { db } from '@/lib/db'
 
+// Admin pages read fresh data per request; navigation may wait for the server.
+export const instant = false
+
 export default async function AdminTestimonialsPage() {
+  await connection() // request-time only: DB drivers use random values Next.js forbids during prerender
   const rows = await db.testimonial.findMany({ orderBy: [{ order: 'asc' }, { id: 'asc' }] })
   return (
     <>

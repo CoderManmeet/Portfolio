@@ -1,7 +1,12 @@
+import { connection } from 'next/server'
 import JourneyEditor from '@/components/admin/journey-editor'
 import { db } from '@/lib/db'
 
+// Admin pages read fresh data per request; navigation may wait for the server.
+export const instant = false
+
 export default async function AdminJourneyPage() {
+  await connection() // request-time only: DB drivers use random values Next.js forbids during prerender
   const rows = await db.journeyItem.findMany({ orderBy: [{ order: 'asc' }, { createdAt: 'asc' }] })
   return (
     <>

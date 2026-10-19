@@ -31,3 +31,15 @@
 @media (prefers-reduced-motion: reduce) {
   .journey-line { transform: none !important; }
 }
+
+/* Hero portrait: any image size fills the frame, cropped from the top so the face stays in view */
+.hero-photo img { object-fit: cover; object-position: center 20%; }
+
+/* Mobile: portrait sits in its own space between the meta row and the name, no overlap */
+@media (max-width: 700px) {
+  .hero { justify-content: flex-start; }
+  .hero-meta { order: 0; }
+  .hero-photo { order: 1; position: relative; top: auto; right: auto; width: 44vw; height: 58vw; max-width: none; max-height: none; margin: 28px 0 0 auto; flex: none; }
+  .hero h1 { order: 2; margin-top: 7vw; }
+  .hero-bottom { order: 3; margin-top: auto; padding-top: 28px; }
+}

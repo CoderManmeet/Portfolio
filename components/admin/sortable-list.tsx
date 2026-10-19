@@ -18,7 +18,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { CSSProperties, ReactNode } from 'react'
+import { type CSSProperties, type ReactNode, useId } from 'react'
 
 function SortableItem({ id, className, children }: { id: string; className?: string; children: (handle: ReactNode, dragging: boolean) => ReactNode }) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id })
@@ -57,6 +57,8 @@ export default function SortableList<T extends { id: string }>({
   layout?: 'list' | 'grid'
   className?: string
 }) {
+  // Stable id so the server and browser generate the same aria ids (prevents hydration mismatch).
+  const dndId = useId()
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -72,7 +74,7 @@ export default function SortableList<T extends { id: string }>({
   }
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+    <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
       <SortableContext items={items.map((item) => item.id)} strategy={layout === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
         <div className={className}>
           {items.map((item, index) => (

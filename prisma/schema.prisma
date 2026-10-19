@@ -1,0 +1,105 @@
+// Prisma 7: the datasource URL lives in prisma.config.ts, not here.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  summary    String
+  problem    String   @db.Text
+  build      String   @db.Text
+  result     String   @db.Text
+  role       String
+  stack      String[]
+  year       String
+  coverImage String
+  gallery    String[]
+  liveUrl    String?
+  repoUrl    String?
+  featured   Boolean  @default(false)
+  order      Int      @default(0)
+  published  Boolean  @default(false)
+  views      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([published, featured, order])
+}
+
+model Certification {
+  id            String   @id @default(cuid())
+  name          String
+  issuer        String
+  date          String
+  credentialUrl String?
+  category      String
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+}
+
+enum JourneyType {
+  education
+  work
+  achievement
+  venture
+}
+
+model JourneyItem {
+  id          String      @id @default(cuid())
+  date        String
+  title       String
+  org         String
+  description String      @db.Text
+  type        JourneyType
+  order       Int         @default(0)
+  createdAt   DateTime    @default(now())
+}
+
+model Testimonial {
+  id        String  @id @default(cuid())
+  quote     String  @db.Text
+  name      String
+  role      String
+  company   String
+  order     Int     @default(0)
+  published Boolean @default(true)
+}
+
+model SiteSettings {
+  id               String   @id @default("singleton")
+  availabilityText String
+  isAvailable      Boolean  @default(true)
+  heroTagline      String
+  resumeUrl        String
+  location         String
+  calLink          String
+  updatedAt        DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  budget    String?
+  timeline  String?
+  message   String   @db.Text
+  ip        String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model RateLimit {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+}

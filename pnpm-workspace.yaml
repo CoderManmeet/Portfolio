@@ -1,0 +1,15 @@
+pmOnFail: ignore
+
+minimumReleaseAgeExclude:
+  - '@next/*'
+  - next
+
+allowBuilds:
+  '@prisma/engines': true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+
+# pnpm 10 uses this key instead of allowBuilds
+onlyBuiltDependencies: ['@prisma/engines', 'esbuild', 'prisma', 'sharp', 'unrs-resolver']

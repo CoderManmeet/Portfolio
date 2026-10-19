@@ -1,0 +1,33 @@
+/* Additions only. Existing design rules live in globals.css and case-study.css. */
+
+.icon-arrow { display: inline-block; width: .78em; height: .78em; vertical-align: -.02em; overflow: visible; }
+
+/* Journey timeline line (drawn on scroll by GSAP; fully visible without JS) */
+.journey-list { position: relative; }
+.journey-line { position: absolute; top: 0; bottom: 0; left: -3vw; width: 1px; background: var(--accent); transform-origin: top center; pointer-events: none; }
+@media (max-width: 700px) { .journey-line { left: -3vw; } }
+
+/* Cal.com inline embed */
+.cal-embed { position: relative; height: 640px; margin-top: 45px; border: 1px solid var(--line); overflow: hidden; }
+.cal-embed > div { width: 100%; height: 100%; }
+.cal-skeleton { position: absolute; inset: 0; z-index: 1; background: var(--paper); display: flex; flex-direction: column; gap: 14px; padding: 22px; }
+.cal-skeleton span { display: block; height: 12px; background: var(--line); opacity: .6; }
+.cal-skeleton span:nth-child(1) { width: 45%; }
+.cal-skeleton span:nth-child(2) { width: 70%; }
+.cal-skeleton .cal-skeleton-grid { flex: 1; height: auto; width: 100%; opacity: .25; }
+.cal-skeleton p { margin: 0; color: var(--muted); }
+.booking .booking-link.cal-fallback { margin-top: 25px; }
+@media (max-width: 700px) { .cal-embed { height: 600px; } }
+
+/* Case study markdown */
+.case-copy ul, .case-copy ol { margin: 0 0 16px; padding-left: 1.2em; }
+.case-copy li { margin-bottom: 6px; }
+.case-copy a { border-bottom: 1px solid currentColor; }
+.case-copy a:hover { color: var(--accent); }
+.case-copy strong { font-weight: 600; }
+.case-copy code { font-family: var(--mono); font-size: .85em; }
+.case-copy .stat-accent { color: var(--accent); font: 2.6em/.9 var(--display); letter-spacing: -.03em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-line { transform: none !important; }
+}
